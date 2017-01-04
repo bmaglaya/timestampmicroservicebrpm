@@ -1,4 +1,7 @@
+'use strict';
+
 var express = require('express');
+var moment = require('moment');
 var path = require('path');
 
 var app = express();
@@ -25,8 +28,28 @@ app.get('/', function (req, res) {
 
 app.get('/:timestamp', function (req, res) {
 	var inTime = req.params.timestamp;
-	console.log(inTime);
-	res.send(inTime);
+	var date = null;
+	
+	if(isNaN(inTime)) {
+		date = moment(inTime, 'MMMM DD, YYYY', true);
+	}
+	else {
+		date = moment.unix(inTime);
+	}
+	
+	if(!date.isValid()) {
+		res.json({
+			unix: null,
+			natural: null
+		});
+	}
+	else {
+		res.json({
+			unix: date.format('X'),
+			natural: date.format('MMMM DD, YYYY')
+		});
+	}
+	
 });
 
 
