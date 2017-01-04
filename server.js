@@ -22,3 +22,14 @@ app.listen(port, function () {
 app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname + '/index.html'));
 });
+
+app.get('/:timestamp', function (req, res) {
+	var inTime = req.params.timestamp;
+	console.log(inTime);
+	res.send(inTime);
+});
+
+
+
+
+
